@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="gam.org.com.firstgame.activitys.SnakeActivity">
 
-    <gam.org.com.firstgame.widgets.SnakeView
+    <gam.org.com.firstgame.snake.SnakeView
         android:id="@+id/snake"
         tileSize="24"
         android:layout_width="match_parent"

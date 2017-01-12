@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package gam.org.com.firstgame.widgets;
+package gam.org.com.firstgame.snake;
 
 import java.util.ArrayList;
 import java.util.Random;

@@ -39,7 +39,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             Intent snakeIntent = new Intent(this, SnakeActivity.class);
             startActivity(snakeIntent);
         } else if (v == main.getChildAt(1)) {
-            Intent connectIntent = new Intent(this, SnakeActivity.class);
+            Intent connectIntent = new Intent(this, ConnectActivity.class);
             startActivity(connectIntent);
         } else if (v == main.getChildAt(2)) {
             Intent meIntent = new Intent(this, SnakeActivity.class);

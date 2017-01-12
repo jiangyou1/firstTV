@@ -6,7 +6,7 @@ import android.view.KeyEvent;
 import android.widget.TextView;
 
 import gam.org.com.firstgame.R;
-import gam.org.com.firstgame.widgets.SnakeView;
+import gam.org.com.firstgame.snake.SnakeView;
 
 public class SnakeActivity extends Activity {
 
