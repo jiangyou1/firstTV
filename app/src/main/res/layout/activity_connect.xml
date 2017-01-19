@@ -59,9 +59,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/timer"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:focusable="false"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:visibility="gone" />
 
     <LinearLayout
@@ -75,7 +74,7 @@
         android:orientation="horizontal"
         android:paddingBottom="10dip">
 
-        <ImageButton
+        <gam.org.com.firstgame.widgets.BorderImageButton
             android:id="@+id/refresh_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -94,7 +93,7 @@
             android:textSize="15sp"
             android:visibility="gone" />
 
-        <ImageButton
+        <gam.org.com.firstgame.widgets.BorderImageButton
             android:id="@+id/tip_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

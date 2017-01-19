@@ -13,7 +13,6 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.View;
-import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +45,6 @@ public class ConnectBoardView extends View {
      * icons 所有的图片
      */
     protected Bitmap[] icons = new Bitmap[iconCounts];
-    protected ImageView[] iconViews = new ImageView[iconCounts];
 
     /**
      * path 可以连通点的路径
@@ -108,9 +106,6 @@ public class ConnectBoardView extends View {
         d.draw(canvas);
         icons[key] = bitmap;
 
-        ImageView viewItem = new ImageView(context);
-        viewItem.setImageBitmap(bitmap);
-        iconViews[key] = viewItem;
     }
 
     @Override
@@ -161,7 +156,9 @@ public class ConnectBoardView extends View {
                         new Rect(p.x - 5, p.y - 5, p.x + iconSize + 5, p.y + iconSize + 5), null);
 
                 Paint paint = new Paint();
-                paint.setColor(Color.RED);
+                paint.setColor((Color.parseColor("#E2E2E2")));
+                paint.setDither(true);
+                paint.setStrokeWidth(5);
                 paint.setStyle(Paint.Style.STROKE);
                 canvas.drawRect(p.x - 5, p.y - 5, p.x + iconSize + 5, p.y + iconSize + 5, paint);
             }
