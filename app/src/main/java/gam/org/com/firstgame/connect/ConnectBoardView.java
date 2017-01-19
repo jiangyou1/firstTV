@@ -13,6 +13,7 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,11 +25,11 @@ public class ConnectBoardView extends View {
     /**
      * xCount x轴方向的图标数+1
      */
-    protected static final int xCount = 10;
+    protected static final int xCount = 20;
     /**
      * yCount y轴方向的图标数+1
      */
-    protected static final int yCount = 12;
+    protected static final int yCount = 10;
     /**
      * map 连连看游戏棋盘
      */
@@ -45,6 +46,7 @@ public class ConnectBoardView extends View {
      * icons 所有的图片
      */
     protected Bitmap[] icons = new Bitmap[iconCounts];
+    protected ImageView[] iconViews = new ImageView[iconCounts];
 
     /**
      * path 可以连通点的路径
@@ -61,24 +63,24 @@ public class ConnectBoardView extends View {
         calIconSize();
 
         Resources r = getResources();
-        loadBitmaps(1, r.getDrawable(R.drawable.fruit_01));
-        loadBitmaps(2, r.getDrawable(R.drawable.fruit_02));
-        loadBitmaps(3, r.getDrawable(R.drawable.fruit_03));
-        loadBitmaps(4, r.getDrawable(R.drawable.fruit_04));
-        loadBitmaps(5, r.getDrawable(R.drawable.fruit_05));
-        loadBitmaps(6, r.getDrawable(R.drawable.fruit_06));
-        loadBitmaps(7, r.getDrawable(R.drawable.fruit_07));
-        loadBitmaps(8, r.getDrawable(R.drawable.fruit_08));
-        loadBitmaps(9, r.getDrawable(R.drawable.fruit_09));
-        loadBitmaps(10, r.getDrawable(R.drawable.fruit_10));
-        loadBitmaps(11, r.getDrawable(R.drawable.fruit_11));
-        loadBitmaps(12, r.getDrawable(R.drawable.fruit_12));
-        loadBitmaps(13, r.getDrawable(R.drawable.fruit_13));
-        loadBitmaps(14, r.getDrawable(R.drawable.fruit_14));
-        loadBitmaps(15, r.getDrawable(R.drawable.fruit_15));
-        loadBitmaps(16, r.getDrawable(R.drawable.fruit_17));
-        loadBitmaps(17, r.getDrawable(R.drawable.fruit_18));
-        loadBitmaps(18, r.getDrawable(R.drawable.fruit_19));
+        loadBitmaps(context, 1, r.getDrawable(R.drawable.fruit_01));
+        loadBitmaps(context, 2, r.getDrawable(R.drawable.fruit_02));
+        loadBitmaps(context, 3, r.getDrawable(R.drawable.fruit_03));
+        loadBitmaps(context, 4, r.getDrawable(R.drawable.fruit_04));
+        loadBitmaps(context, 5, r.getDrawable(R.drawable.fruit_05));
+        loadBitmaps(context, 6, r.getDrawable(R.drawable.fruit_06));
+        loadBitmaps(context, 7, r.getDrawable(R.drawable.fruit_07));
+        loadBitmaps(context, 8, r.getDrawable(R.drawable.fruit_08));
+        loadBitmaps(context, 9, r.getDrawable(R.drawable.fruit_09));
+        loadBitmaps(context, 10, r.getDrawable(R.drawable.fruit_10));
+        loadBitmaps(context, 11, r.getDrawable(R.drawable.fruit_11));
+        loadBitmaps(context, 12, r.getDrawable(R.drawable.fruit_12));
+        loadBitmaps(context, 13, r.getDrawable(R.drawable.fruit_13));
+        loadBitmaps(context, 14, r.getDrawable(R.drawable.fruit_14));
+        loadBitmaps(context, 15, r.getDrawable(R.drawable.fruit_15));
+        loadBitmaps(context, 16, r.getDrawable(R.drawable.fruit_17));
+        loadBitmaps(context, 17, r.getDrawable(R.drawable.fruit_18));
+        loadBitmaps(context, 18, r.getDrawable(R.drawable.fruit_19));
     }
 
     /**
@@ -88,19 +90,27 @@ public class ConnectBoardView extends View {
         DisplayMetrics dm = new DisplayMetrics();
         ((Activity) this.getContext()).getWindowManager()
                 .getDefaultDisplay().getMetrics(dm);
-        iconSize = dm.widthPixels / (xCount);
+        if (dm.widthPixels / (xCount) > dm.heightPixels / (yCount)) {
+            iconSize = dm.heightPixels / (yCount);
+        } else {
+            iconSize = dm.widthPixels / (xCount);
+        }
     }
 
     /**
      * @param key 特定图标的标识
      * @param d   drawable下的资源
      */
-    public void loadBitmaps(int key, Drawable d) {
+    public void loadBitmaps(Context context, int key, Drawable d) {
         Bitmap bitmap = Bitmap.createBitmap(iconSize, iconSize, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         d.setBounds(0, 0, iconSize, iconSize);
         d.draw(canvas);
         icons[key] = bitmap;
+
+        ImageView viewItem = new ImageView(context);
+        viewItem.setImageBitmap(bitmap);
+        iconViews[key] = viewItem;
     }
 
     @Override
@@ -145,9 +155,15 @@ public class ConnectBoardView extends View {
         for (Point position : selected) {
             Point p = indextoScreen(position.x, position.y);
             if (map[position.x][position.y] >= 1) {
+
                 canvas.drawBitmap(icons[map[position.x][position.y]],
                         null,
                         new Rect(p.x - 5, p.y - 5, p.x + iconSize + 5, p.y + iconSize + 5), null);
+
+                Paint paint = new Paint();
+                paint.setColor(Color.RED);
+                paint.setStyle(Paint.Style.STROKE);
+                canvas.drawRect(p.x - 5, p.y - 5, p.x + iconSize + 5, p.y + iconSize + 5, paint);
             }
         }
     }
