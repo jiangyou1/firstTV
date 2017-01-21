@@ -12,6 +12,8 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -57,19 +59,22 @@ public class ConnectBoardView extends View {
     /**
      * 当前聚焦的点
      */
-    protected Point focusPoint = null;
+    protected Point selectPoint = null;
     /**
      * 当前是否聚焦
      */
     protected boolean isFocus = false;
+    /**
+     * 是否刚打开游戏
+     */
+    protected boolean isFirstOpen = true;
 
     @Override
     protected void onFocusChanged(boolean gainFocus, int direction, Rect previouslyFocusedRect) {
+        Log.e("jiangyou", "-------onFocusChanged--------" + gainFocus);
         super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
         isFocus = gainFocus;
     }
-
-
 
     public ConnectBoardView(Context context, AttributeSet atts) {
         super(context, atts);
@@ -126,7 +131,7 @@ public class ConnectBoardView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-
+        Log.e("jiangyou", "-------onDraw--------");
         /**
          * 绘制连通路径，然后将路径以及两个图标清除
          */
@@ -160,13 +165,19 @@ public class ConnectBoardView extends View {
             }
         }
 
+        if (isFirstOpen) {
+            isFirstOpen = false;
+            selected.clear();
+            selectPoint = new Point(1, 1);
+            selected.add(selectPoint);
+        }
+
         /**
          * 绘制选中图标，当选中时图标放大显示
          */
         for (Point position : selected) {
             Point p = indextoScreen(position.x, position.y);
             if (map[position.x][position.y] >= 1) {
-
                 canvas.drawBitmap(icons[map[position.x][position.y]],
                         null,
                         new Rect(p.x - 5, p.y - 5, p.x + iconSize + 5, p.y + iconSize + 5), null);
