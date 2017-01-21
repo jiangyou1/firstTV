@@ -30,7 +30,9 @@ public class BorderImageButton extends ImageButton {
         Paint paint = new Paint();
 
         if (isFocus) {
-            paint.setColor(Color.RED);
+            paint.setColor((Color.parseColor("#E2E2E2")));
+            paint.setDither(true);
+            paint.setStrokeWidth(5);
             paint.setStyle(Paint.Style.STROKE);
             canvas.drawRect(0, 0, this.getWidth() - sroke_width, this.getHeight() - sroke_width, paint);
         }
