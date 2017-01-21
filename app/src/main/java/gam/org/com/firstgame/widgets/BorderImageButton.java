@@ -40,6 +40,5 @@ public class BorderImageButton extends ImageButton {
     protected void onFocusChanged(boolean gainFocus, int direction, Rect previouslyFocusedRect) {
         super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
         isFocus = gainFocus;
-        invalidate();
     }
 }

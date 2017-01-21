@@ -9,7 +9,7 @@
     tools:context="gam.org.com.firstgame.activitys.ConnectActivity">
 
 
-    <ImageButton
+    <gam.org.com.firstgame.widgets.BorderImageButton
         android:id="@+id/play_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -54,6 +54,22 @@ public class ConnectBoardView extends View {
      * selected 选中的图标
      */
     protected List<Point> selected = new ArrayList<Point>();
+    /**
+     * 当前聚焦的点
+     */
+    protected Point focusPoint = null;
+    /**
+     * 当前是否聚焦
+     */
+    protected boolean isFocus = false;
+
+    @Override
+    protected void onFocusChanged(boolean gainFocus, int direction, Rect previouslyFocusedRect) {
+        super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
+        isFocus = gainFocus;
+    }
+
+
 
     public ConnectBoardView(Context context, AttributeSet atts) {
         super(context, atts);
