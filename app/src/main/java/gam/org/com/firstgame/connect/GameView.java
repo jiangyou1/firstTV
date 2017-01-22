@@ -176,7 +176,7 @@ public class GameView extends ConnectBoardView {
 
         int selectPointY = selectPoint.y;
         int selectPointX = selectPoint.x;
-        Log.e("jiangyou", selectPointY + "----onKeyDown----" + selectPointY);
+        Log.e("jiangyou", selectPointY + "- ---onKeyDown----" + selectPointY);
 
         switch (keyCode) {
             case KeyEvent.KEYCODE_DPAD_UP:
@@ -189,16 +189,31 @@ public class GameView extends ConnectBoardView {
                 GameView.this.invalidate();
                 break;
             case KeyEvent.KEYCODE_DPAD_DOWN:
-                selectPointY++;
-
+                if (selectPointY == yCount - 2) {
+                    selectPointY = 1;
+                } else {
+                    selectPointY++;
+                }
+                selectPoint.y = selectPointY;
+                GameView.this.invalidate();
                 break;
             case KeyEvent.KEYCODE_DPAD_LEFT:
-                selectPointX--;
-
+                if (selectPointX == 1) {
+                    selectPointX = xCount - 2;
+                } else {
+                    selectPointX--;
+                }
+                selectPoint.x = selectPointX;
+                GameView.this.invalidate();
                 break;
             case KeyEvent.KEYCODE_DPAD_RIGHT:
-                selectPointX++;
-
+                if (selectPointX == xCount - 2) {
+                    selectPointX = 1;
+                } else {
+                    selectPointX++;
+                }
+                selectPoint.x = selectPointX;
+                GameView.this.invalidate();
                 break;
             case KeyEvent.KEYCODE_ENTER:
                 doSelectAction(selectPoint);
