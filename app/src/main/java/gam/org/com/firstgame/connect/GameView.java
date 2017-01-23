@@ -171,55 +171,91 @@ public class GameView extends ConnectBoardView {
         return Refresh;
     }
 
+    /**
+     * 焦点的横向移动
+     *
+     * @param isLeft 是否向左移动
+     */
+    public void focusHorizontalMove(boolean isLeft) {
+        int selectPointX = selectPoint.x;
+        int selectPointY = selectPoint.y;
+        if (isLeft) {
+            selectPointX--;
+            while (true) {
+                if (selectPointX < 0) {
+                    selectPointX += xCount;
+                }
+                if (map[selectPointX % xCount][selectPointY] != 0) {
+                    break;
+                }
+                selectPointX--;
+            }
+        } else {
+            selectPointX++;
+            while (true) {
+                if (map[selectPointX % xCount][selectPointY] != 0) {
+                    break;
+                }
+                selectPointX++;
+            }
+        }
+        selectPoint.x = selectPointX % xCount;
+    }
+
+    /**
+     * 焦点的纵向移动
+     *
+     * @param isUp 是否向上移动
+     */
+    public void focusVerticalMove(boolean isUp) {
+        int selectPointX = selectPoint.x;
+        int selectPointY = selectPoint.y;
+        if (isUp) {
+            selectPointY--;
+            while (true) {
+                if (selectPointY < 0) {
+                    selectPointY += yCount;
+                }
+                if (map[selectPointX][selectPointY % yCount] != 0) {
+                    break;
+                }
+                selectPointY--;
+            }
+        } else {
+            selectPointY++;
+            while (true) {
+                if (map[selectPointX][selectPointY % yCount] != 0) {
+                    break;
+                }
+                selectPointY++;
+            }
+        }
+        selectPoint.y = selectPointY % yCount;
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-
-        int selectPointY = selectPoint.y;
-        int selectPointX = selectPoint.x;
-        Log.e("jiangyou", selectPointY + "- ---onKeyDown----" + selectPointY);
-
         switch (keyCode) {
             case KeyEvent.KEYCODE_DPAD_UP:
-                if (selectPointY == 1) {
-                    selectPointY = yCount - 2;
-                } else {
-                    selectPointY--;
-                }
-                selectPoint.y = selectPointY;
+                focusVerticalMove(true);
                 GameView.this.invalidate();
                 break;
             case KeyEvent.KEYCODE_DPAD_DOWN:
-                if (selectPointY == yCount - 2) {
-                    selectPointY = 1;
-                } else {
-                    selectPointY++;
-                }
-                selectPoint.y = selectPointY;
+                focusVerticalMove(false);
                 GameView.this.invalidate();
                 break;
             case KeyEvent.KEYCODE_DPAD_LEFT:
-                if (selectPointX == 1) {
-                    selectPointX = xCount - 2;
-                } else {
-                    selectPointX--;
-                }
-                selectPoint.x = selectPointX;
+                focusHorizontalMove(true);
                 GameView.this.invalidate();
                 break;
             case KeyEvent.KEYCODE_DPAD_RIGHT:
-                if (selectPointX == xCount - 2) {
-                    selectPointX = 1;
-                } else {
-                    selectPointX++;
-                }
-                selectPoint.x = selectPointX;
+                focusHorizontalMove(false);
                 GameView.this.invalidate();
                 break;
             case KeyEvent.KEYCODE_ENTER:
                 doSelectAction(selectPoint);
                 break;
         }
-        Log.e("jiangyou", selectPointY + "----onKeyDown----" + selectPointY);
         return super.onKeyDown(keyCode, event);
     }
 
@@ -253,6 +289,7 @@ public class GameView extends ConnectBoardView {
         int x = (int) event.getX();
         int y = (int) event.getY();
         Point p = screenToindex(x, y);
+        selectPoint = p;
         doSelectAction(p);
         return super.onTouchEvent(event);
     }

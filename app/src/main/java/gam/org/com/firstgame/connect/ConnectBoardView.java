@@ -169,7 +169,6 @@ public class ConnectBoardView extends View {
             isFirstOpen = false;
             selected.clear();
             selectPoint = new Point(1, 1);
-            selected.add(selectPoint);
         }
 
         /**
@@ -183,13 +182,21 @@ public class ConnectBoardView extends View {
                         new Rect(p.x - 5, p.y - 5, p.x + iconSize + 5, p.y + iconSize + 5), null);
 
                 Paint paint = new Paint();
-                paint.setColor((Color.parseColor("#E2E2E2")));
+                paint.setColor(Color.GREEN);
                 paint.setDither(true);
                 paint.setStrokeWidth(5);
                 paint.setStyle(Paint.Style.STROKE);
                 canvas.drawRect(p.x - 5, p.y - 5, p.x + iconSize + 5, p.y + iconSize + 5, paint);
             }
         }
+
+        Point selectP = indextoScreen(selectPoint.x, selectPoint.y);
+        Paint selectPaint = new Paint();
+        selectPaint.setColor((Color.parseColor("#E2E2E2")));
+        selectPaint.setDither(true);
+        selectPaint.setStrokeWidth(5);
+        selectPaint.setStyle(Paint.Style.STROKE);
+        canvas.drawRect(selectP.x - 5, selectP.y - 5, selectP.x + iconSize + 5, selectP.y + iconSize + 5, selectPaint);
     }
 
     /**
