@@ -177,8 +177,8 @@ public class GameView extends ConnectBoardView {
      * @param isLeft 是否向左移动
      */
     public void focusHorizontalMove(boolean isLeft) {
-        int selectPointX = selectPoint.x;
-        int selectPointY = selectPoint.y;
+        int selectPointX = focusPoint.x;
+        int selectPointY = focusPoint.y;
         if (isLeft) {
             selectPointX--;
             while (true) {
@@ -199,7 +199,7 @@ public class GameView extends ConnectBoardView {
                 selectPointX++;
             }
         }
-        selectPoint.x = selectPointX % xCount;
+        focusPoint.x = selectPointX % xCount;
     }
 
     /**
@@ -208,8 +208,8 @@ public class GameView extends ConnectBoardView {
      * @param isUp 是否向上移动
      */
     public void focusVerticalMove(boolean isUp) {
-        int selectPointX = selectPoint.x;
-        int selectPointY = selectPoint.y;
+        int selectPointX = focusPoint.x;
+        int selectPointY = focusPoint.y;
         if (isUp) {
             selectPointY--;
             while (true) {
@@ -230,7 +230,7 @@ public class GameView extends ConnectBoardView {
                 selectPointY++;
             }
         }
-        selectPoint.y = selectPointY % yCount;
+        focusPoint.y = selectPointY % yCount;
     }
 
     @Override
@@ -253,31 +253,30 @@ public class GameView extends ConnectBoardView {
                 GameView.this.invalidate();
                 break;
             case KeyEvent.KEYCODE_ENTER:
-                doSelectAction(selectPoint);
+                doSelectAction(new Point(focusPoint.x, focusPoint.y));
                 break;
         }
         return super.onKeyDown(keyCode, event);
     }
 
     public void doSelectAction(Point _selectPoint) {
-        Log.e("jiangyou", xCount + "-------doSelectAction--------" + yCount);
         Log.e("jiangyou", _selectPoint.x + "-------doSelectAction--------" + _selectPoint.y);
 
         if (map[_selectPoint.x][_selectPoint.y] > 0) {
-            if (selected.size() == 1) {
-                if (link(selected.get(0), _selectPoint)) {
-                    selected.add(_selectPoint);
+            if (selectedPoint.size() == 1) {
+                if (link(selectedPoint.get(0), _selectPoint)) {
+                    selectedPoint.add(_selectPoint);
                     drawLine(path.toArray(new Point[]{}));
                     soundPlay.play(ID_SOUND_DISAPEAR, 0);
                     refreshHandler.sleep(500);
                 } else {
-                    selected.clear();
-                    selected.add(_selectPoint);
+                    selectedPoint.clear();
+                    selectedPoint.add(_selectPoint);
                     soundPlay.play(ID_SOUND_CHOOSE, 0);
                     GameView.this.invalidate();
                 }
             } else {
-                selected.add(_selectPoint);
+                selectedPoint.add(_selectPoint);
                 soundPlay.play(ID_SOUND_CHOOSE, 0);
                 GameView.this.invalidate();
             }
@@ -289,7 +288,8 @@ public class GameView extends ConnectBoardView {
         int x = (int) event.getX();
         int y = (int) event.getY();
         Point p = screenToindex(x, y);
-        selectPoint = p;
+        focusPoint.x = p.x;
+        focusPoint.y = p.y;
         doSelectAction(p);
         return super.onTouchEvent(event);
     }

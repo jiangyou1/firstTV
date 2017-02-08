@@ -53,13 +53,13 @@ public class ConnectBoardView extends View {
      */
     private Point[] path = null;
     /**
-     * selected 选中的图标
+     * selectedPoint 选中的图标
      */
-    protected List<Point> selected = new ArrayList<Point>();
+    protected List<Point> selectedPoint = new ArrayList<Point>();
     /**
      * 当前聚焦的点
      */
-    protected Point selectPoint = null;
+    protected Point focusPoint = null;
     /**
      * 当前是否聚焦
      */
@@ -150,9 +150,10 @@ public class ConnectBoardView extends View {
             map[p.x][p.y] = 0;
             p = path[path.length - 1];
             map[p.x][p.y] = 0;
-            selected.clear();
+            selectedPoint.clear();
             path = null;
         }
+
         /**
          * 绘制棋盘的所有图标 当这个坐标内的值大于0时绘制
          */
@@ -167,15 +168,16 @@ public class ConnectBoardView extends View {
 
         if (isFirstOpen) {
             isFirstOpen = false;
-            selected.clear();
-            selectPoint = new Point(1, 1);
+            selectedPoint.clear();
+            focusPoint = new Point(1, 1);
         }
 
         /**
          * 绘制选中图标，当选中时图标放大显示
          */
-        for (Point position : selected) {
+        for (Point position : selectedPoint) {
             Point p = indextoScreen(position.x, position.y);
+            Log.e("jiangyou", position.x + "-------onDraw          position --------"+position.y );
             if (map[position.x][position.y] >= 1) {
                 canvas.drawBitmap(icons[map[position.x][position.y]],
                         null,
@@ -190,13 +192,14 @@ public class ConnectBoardView extends View {
             }
         }
 
-        Point selectP = indextoScreen(selectPoint.x, selectPoint.y);
+        Point selectP = indextoScreen(focusPoint.x, focusPoint.y);
         Paint selectPaint = new Paint();
         selectPaint.setColor((Color.parseColor("#E2E2E2")));
         selectPaint.setDither(true);
         selectPaint.setStrokeWidth(5);
         selectPaint.setStyle(Paint.Style.STROKE);
         canvas.drawRect(selectP.x - 5, selectP.y - 5, selectP.x + iconSize + 5, selectP.y + iconSize + 5, selectPaint);
+
     }
 
     /**
